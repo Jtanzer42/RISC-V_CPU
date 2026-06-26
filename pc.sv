@@ -1,12 +1,12 @@
-module pc (
+module program_counter (
     input logic clk,
-    input logic reset,
+    input logic rst_n,
     input logic [31:0] pc_next, // next address to jump to
     output logic [31:0] pc_out // current address output
 );
 
-always_ff @(posedge clk or posedge reset) begin
-    if (reset) begin
+always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
         pc_out <= 32'h0000_0000; // reset to 0 on startup
     end else begin
         pc_out <= pc_next; // update to next address on clock edge
